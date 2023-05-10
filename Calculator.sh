@@ -1,59 +1,37 @@
 #!/bin/bash
-
-# Function to display the calculator menu
-function show_menu() {
-    echo "Calculator Menu"
-    echo "---------------"
-    echo "1. Add"
-    echo "2. Subtract"
-    echo "3. Multiply"
-    echo "4. Divide"
-    echo "5. Quit"
-}
-
-# Loop until the user selects Quit
-while true; do
-    # Display the menu
-    show_menu
-    
-    # Read the user's choice
-    read -p "Enter your choice: " choice
-    
-    # Perform the selected operation
-    case $choice in
-        1)  # Addition
-            read -p "Enter the first number: " num1
-            read -p "Enter the second number: " num2
-            result=$(expr $num1 + $num2)
-            echo "Result: $result"
-            ;;
-        2)  # Subtraction
-            read -p "Enter the first number: " num1
-            read -p "Enter the second number: " num2
-            result=$(expr $num1 - $num2)
-            echo "Result: $result"
-            ;;
-        3)  # Multiplication
-            read -p "Enter the first number: " num1
-            read -p "Enter the second number: " num2
-            result=$(expr $num1 \* $num2)
-            echo "Result: $result"
-            ;;
-        4)  # Division
-            read -p "Enter the first number: " num1
-            read -p "Enter the second number: " num2
-            result=$(expr $num1 / $num2)
-            echo "Result: $result"
-            ;;
-        5)  # Quit
-            exit 0
-            ;;
-        *)  # Invalid choice
-            echo "Invalid choice. Please try again."
-            ;;
-    esac
-    
-    # Wait for the user to press Enter
-    read -p "Press Enter to continue..."
-done
+echo "Enter the first number:"
+read num1
+# Prompt the user for the operation to perform
+echo "Enter the operation (+, -, *, /):"
+read operation
+# Prompt the user for the second number
+echo "Enter the second number:"
+read num2
+# Perform the operation
+case $operation in
+    +)
+        result=$((num1 + num2))
+        echo "$num1 + $num2 = $result"
+        ;;
+    -)
+        result=$((num1 - num2))
+        echo "$num1 - $num2 = $result"
+        ;;
+    \*)
+        result=$((num1 * num2))
+        echo "$num1 * $num2 = $result"
+        ;;
+    /)
+        if [[ $num2 -eq 0 ]]
+        then
+            echo "Error: Division by zero"
+        else
+            result=$(echo "scale=2; $num1 / $num2" | bc)
+            echo "$num1 / $num2 = $result"
+        fi
+        ;;
+    *)
+        echo "Error: Invalid operation"
+        ;;
+esac
 
